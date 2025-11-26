@@ -61,11 +61,16 @@ if(DOWNLOAD_DEPENDENCIES)
         ${libweaver_SOURCE_DIR}/lib/interleaf.cpp
         ${libweaver_SOURCE_DIR}/lib/object.cpp
         ${libweaver_SOURCE_DIR}/lib/sitypes.cpp
+        ${libweaver_SOURCE_DIR}/lib/file_io.cpp
     )
     add_library(libweaver::libweaver ALIAS libweaver)
     target_compile_definitions(libweaver PRIVATE $<$<BOOL:${WIN32}>:NOMINMAX>)
     target_include_directories(libweaver PUBLIC ${libweaver_SOURCE_DIR}/include/libweaver)
     set_property(TARGET libweaver PROPERTY CXX_STANDARD 98)
     set_property(TARGET libweaver PROPERTY CXX_STANDARD_REQUIRED ON)
+
+    if (WIN32 AND NOT WINDOWS_STORE)
+        target_compile_definitions(libweaver PRIVATE SIEDIT_WIN_DESKTOP=1)
+    endif()
 endif()
 
